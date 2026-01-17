@@ -23,8 +23,8 @@ const Login = () => {
       try {
         axios.defaults.withCredentials = true;
         const response = await axios.post(
-          `http://localhost:5000/auth/register`,
-          { name, email, password }
+          `${import.meta.env.VITE_BACKEND_SERVER}/auth/register`,
+          { name, email, password },
         );
         if (response.data.success) {
           toast.success(response.data.message);
@@ -40,10 +40,13 @@ const Login = () => {
     } else {
       try {
         axios.defaults.withCredentials = true;
-        const response = await axios.post(`http://localhost:5000/auth/login`, {
-          email,
-          password,
-        });
+        const response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_SERVER}/auth/login`,
+          {
+            email,
+            password,
+          },
+        );
         if (response.data.success) {
           toast.success(response.data.message);
           setIsAuthenticated(true);
