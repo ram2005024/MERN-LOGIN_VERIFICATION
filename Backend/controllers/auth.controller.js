@@ -1,6 +1,6 @@
 import UserModel from "../Model/UserModel.js";
 import bcrypt from "bcrypt";
-import { transporter } from "../config/nodemailer.js";
+import { resend } from "../config/resend.js";
 import {
   resetTemplate,
   verificationTemplate,
@@ -34,12 +34,19 @@ export const registerHandler = async (req, res) => {
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
     });
-    const mailOptions = {
-      to: email,
-      from: process.env.SENDING_USER,
-      subject: "Welcome to the creative tech field Cyrus",
-      html: String(welcomeTemplate.replace("{name}", name)),
-    };
+
+    try {
+      const data = await resend.emails.send({
+        from: "YourApp <onboarding@resend.dev>", // must be verified domain or default resend.dev
+        to: email,
+        subject: "Welcome to the creative tech field Cyrus",
+        html: String(welcomeTemplate.replace("{name}", name)),
+      });
+      console.log("Email sent:", data);
+    } catch (error) {
+      console.error("Email error:", error);
+    }
+
     await transporter.sendMail(mailOptions);
     res.json({ success: true, message: "User registered successfully" });
   } catch (error) {
@@ -99,15 +106,21 @@ export const verifyEmail = async (req, res) => {
     user.verifyOTP = Math.floor(100000 + Math.random() * 900000);
     user.verifyOTPExpiresAt = Date.now() + 10 * 60 * 1000;
     await user.save();
-    const mailOptions = {
-      to: user.email,
-      from: process.env.SENDING_USER,
-      subject: "Verification Code",
-      html: String(
-        verificationTemplate.replace("{verificationCode}", user.verifyOTP)
-      ),
-    };
-    await transporter.sendMail(mailOptions);
+
+    try {
+      const data = await resend.emails.send({
+        from: "YourApp <onboarding@resend.dev>", // must be verified domain or default resend.dev
+        to: user.email,
+        subject: "Verification Code",
+        html: String(
+          verificationTemplate.replace("{verificationCode}", user.verifyOTP),
+        ),
+      });
+      console.log("Email sent:", data);
+    } catch (error) {
+      console.error("Email error:", error);
+    }
+
     return res.json({
       success: true,
       message: "Verification code sent successfully",
@@ -143,15 +156,21 @@ export const resetVerification = async (req, res) => {
     user.resetVerifyOTP = Math.floor(100000 + Math.random() * 900000);
     user.resetVerifyOTPExpiresAt = Date.now() + 15 * 60 * 1000;
     await user.save();
-    const mailOptions = {
-      to: user.email,
-      from: process.env.SENDING_USER,
-      subject: "Reset Code",
-      html: String(
-        resetTemplate.replace("{resetVerificationCode}", user.resetVerifyOTP)
-      ),
-    };
-    await transporter.sendMail(mailOptions);
+
+    try {
+      const data = await resend.emails.send({
+        from: "YourApp <onboarding@resend.dev>", // must be verified domain or default resend.dev
+        to: user.email,
+        subject: "Reset Code",
+        html: String(
+          resetTemplate.replace("{resetVerificationCode}", user.resetVerifyOTP),
+        ),
+      });
+      console.log("Email sent:", data);
+    } catch (error) {
+      console.error("Email error:", error);
+    }
+
     return res.json({
       success: true,
       message: "Reset code sent successfully",
