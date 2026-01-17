@@ -37,7 +37,7 @@ export const registerHandler = async (req, res) => {
 
     try {
       const data = await resend.emails.send({
-        from: "YourApp <onboarding@resend.dev>", // must be verified domain or default resend.dev
+        from: "Cyrus <onboarding@resend.dev>", // must be verified domain or default resend.dev
         to: email,
         subject: "Welcome to the creative tech field Cyrus",
         html: String(welcomeTemplate.replace("{name}", name)),
@@ -47,7 +47,6 @@ export const registerHandler = async (req, res) => {
       console.error("Email error:", error);
     }
 
-    await transporter.sendMail(mailOptions);
     res.json({ success: true, message: "User registered successfully" });
   } catch (error) {
     return res
@@ -109,7 +108,7 @@ export const verifyEmail = async (req, res) => {
 
     try {
       const data = await resend.emails.send({
-        from: "YourApp <onboarding@resend.dev>", // must be verified domain or default resend.dev
+        from: "Cyrus <onboarding@resend.dev>", // must be verified domain or default resend.dev
         to: user.email,
         subject: "Verification Code",
         html: String(
@@ -159,7 +158,7 @@ export const resetVerification = async (req, res) => {
 
     try {
       const data = await resend.emails.send({
-        from: "YourApp <onboarding@resend.dev>", // must be verified domain or default resend.dev
+        from: "Cyrus <onboarding@resend.dev>", // must be verified domain or default resend.dev
         to: user.email,
         subject: "Reset Code",
         html: String(
