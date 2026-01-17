@@ -8,6 +8,8 @@ import Login from "./pages/Login.jsx";
 import Verification from "./pages/Verification.jsx";
 import ResetVerification from "./pages/ResetVerification.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import DemoPage from "./pages/DemoPage.jsx";
+import ProtectDemo from "./middlewares/ProtectDemo.jsx";
 const route = createBrowserRouter([
   {
     path: "/",
@@ -33,11 +35,19 @@ const route = createBrowserRouter([
         path: "/resetVerification",
         element: <ResetVerification />,
       },
+      {
+        path: "/demo",
+        element: (
+          <ProtectDemo>
+            <DemoPage />
+          </ProtectDemo>
+        ),
+      },
     ],
   },
 ]);
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <RouterProvider router={route} />
-  </StrictMode>
+  </StrictMode>,
 );

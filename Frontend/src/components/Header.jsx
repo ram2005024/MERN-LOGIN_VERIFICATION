@@ -1,9 +1,11 @@
 import { useContext } from "react";
 import { assets } from "../assets/assets";
 import { AppContext } from "../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const { userData, isAuthenticated } = useContext(AppContext);
+  const navigate = useNavigate();
   return (
     <div className="flex flex-col justify-center items-center gap-4 text-center  mb-10">
       <img src={assets.robo} className="w-20 mb-6" />
@@ -19,7 +21,12 @@ const Header = () => {
         working together with the exprienced developer inside the Cyrus's Tech
         Coop.
       </p>
-      <button className="border border-gray-500 rounded-full px-8 py-2 mt-7 hover:bg-gray-100 cursor-pointer">
+      <button
+        onClick={() => {
+          isAuthenticated ? navigate("/demo") : navigate("/login");
+        }}
+        className="border border-gray-500 rounded-full px-8 py-2 mt-7 hover:bg-gray-100 cursor-pointer"
+      >
         Get Started
       </button>
     </div>

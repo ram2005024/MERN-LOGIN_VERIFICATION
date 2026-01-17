@@ -17,7 +17,7 @@ export const AppContextProvider = ({ children }) => {
         {},
         {
           withCredentials: true,
-        }
+        },
       );
       if (response.data?.user) {
         setUserData(response.data?.user);

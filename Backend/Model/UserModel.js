@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema(
     resetVerifyOTP: { type: String, default: "" },
     resetVerifyOTPExpiresAt: { type: Number, default: null },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
-const UserModel = mongoose.model("users", UserSchema);
+const UserModel = mongoose.models.users || mongoose.model("users", UserSchema);
 export default UserModel;
