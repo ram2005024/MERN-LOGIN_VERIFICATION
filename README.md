@@ -2,7 +2,7 @@
 
 A complete authentication system built with the MERN stack, featuring user registration, login, email verification, and password recovery.
 
-**Live Demo:** [Add your deployment URL here]
+**Live Demo:** https://mern-login-verification-frontend.vercel.app/
 
 ## About
 
